@@ -10,7 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/resultDie1TV"
@@ -18,6 +20,16 @@
             android:layout_height="wrap_content"
             android:text="Result"
             android:textSize="40dp" />
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/resultDie2TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Result"
+            android:textSize="40dp"
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <LinearLayout
@@ -65,50 +77,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <RadioGroup
-                    android:id="@+id/numOfSides"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkedButton="@id/sixSides"
-                    android:layout_weight="6">
+                    android:text="Number of Sides: "/>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fourSides"
-                        android:text="4"/>
+                <Spinner
+                    android:id="@+id/numOfSidesSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/sixSides"
-                        android:text="6"/>
+                </Spinner>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/eightSides"
-                        android:text="8"/>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tenSides"
-                        android:text="10"/>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/twelveSides"
-                        android:text="12"/>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/twentySides"
-                        android:text="20"/>
-                </RadioGroup>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,13 +121,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
                 <EditText
                     android:id="@+id/customRollET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Enter a custom die number"
                     android:gravity="center"/>
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="save"/>
+
 
             </LinearLayout>
         </LinearLayout>

@@ -4,7 +4,7 @@ package com.example.finalexam;
 public class Die{
     // member variables to store die information
     String type;
-    byte numSides;
+    byte dieSides;
     byte sideUp;
 
     /**
@@ -12,32 +12,32 @@ public class Die{
      Uses the roll method for a random side up
      */
     public Die(){
-        this.numSides = 6;
+        this.dieSides = 6;
         // the default name for dice is dX where X is the number of sides
-        type = "d" + numSides;
+        type = "d" + dieSides;
         roll(); // use the roll method to save writing a random value
     }
 
     /**
      A single arguement constrtuctor to make a die with a default name
      Uses the roll method for a random side up
-     @param  numSides    the number of sides for the die
+     @param  dieSides    the number of sides for the die
      */
-    public Die(byte numSides){
-        this.numSides = numSides;
+    public Die(byte dieSides){
+        this.dieSides = dieSides;
         // the default name for dice is dX where X is the number of sides
-        type = "d" + this.numSides;
+        type = "d" + this.dieSides;
         roll(); // use the roll method to save writing a random value
     }
 
     /**
      A two arguement constrtuctor to make a custom die
      Uses the roll method for a random side up
-     @param  numSides    the number of sides for the die
+     @param  dieSides    the number of sides for the die
      @param  type        the name of the die
      */
-    public Die(byte numSides, String type){
-        this.numSides = numSides;
+    public Die(byte dieSides, String type){
+        this.dieSides = dieSides;
         this.type = type;
         roll(); // use the roll method to save writing a random value
     }
@@ -45,30 +45,30 @@ public class Die{
     /**
      A single arguement constrtuctor to make a die with a default name. If the argument is outside the range of a byte, it defaults to 6
      Uses the roll method for a random side up
-     @param  numSides    the number of sides for the die
+     @param  dieSides    the number of sides for the die
      */
-    public Die(int numSides){
-        if(numSides > Byte.MAX_VALUE){
-            this.numSides = 6;
+    public Die(int dieSides){
+        if(dieSides > Byte.MAX_VALUE){
+            this.dieSides = 6;
             System.out.println("Value too large. Defaulting to 6");
         }
-        else this.numSides = (byte)numSides;
-        this.type = "d" + this.numSides;
+        else this.dieSides = (byte)dieSides;
+        this.type = "d" + this.dieSides;
         roll(); // use the roll method to save writing a random value
     }
 
     /**
      A single arguement constrtuctor to make a die with a default name. If the argument is outside the range of a byte, it defaults to 6
      Uses the roll method for a random side up
-     @param  numSides    the number of sides for the die
+     @param  dieSides    the number of sides for the die
      @param  type        the name of the die
      */
-    public Die(int numSides, String type){
-        if(numSides > Byte.MAX_VALUE){
-            this.numSides = 6;
+    public Die(int dieSides, String type){
+        if(dieSides > Byte.MAX_VALUE){
+            this.dieSides = 6;
             System.out.println("Value too large. Defaulting to 6");
         }
-        else this.numSides = (byte)numSides;
+        else this.dieSides = (byte)dieSides;
         this.type = type;
         roll(); // use the roll method to save writing a random value
     }
@@ -83,7 +83,7 @@ public class Die{
      Returns the number of sides
      @return the number of sides
      */
-    public byte getNumSides(){ return numSides; }
+    public byte getdieSides(){ return dieSides; }
 
     /**
      Returns the current side showing on the die
@@ -91,7 +91,7 @@ public class Die{
      */
     public byte getSideUp(){ return sideUp; }
 
-    // set method for numSides excluded
+    // set method for dieSides excluded
 
     /**
      Changes the name of the die
@@ -107,8 +107,8 @@ public class Die{
      */
     public void setSideUp(byte sideUp){
         // if the parameter value isn't valid, default to the highest value
-        if(sideUp > this.numSides || sideUp < 1){
-            this.sideUp = numSides;
+        if(sideUp > this.dieSides || sideUp < 1){
+            this.sideUp = dieSides;
         }
         else this.sideUp = sideUp;
     }
@@ -130,7 +130,7 @@ public class Die{
         // use the setSideUp method to change the current side being displayed
         // Math.random() returns a double value 0 <= val < 1
         //  to change this to a value we can use, multiply it by the number of sides, then add 1. We also need to cast to byte to be able to pass to our method
-        setSideUp((byte)((Math.random() * numSides)+1));
+        setSideUp((byte)((Math.random() * dieSides)+1));
     }
 }
 
