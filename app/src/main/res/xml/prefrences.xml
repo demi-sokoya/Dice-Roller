@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="save_vals"
+        android:title="Remember Custom Die"
+        android:summary="Stores the added die after the app closes"
+        android:defaultValue="true" />
+    <Preference>
+
+    </Preference>
+</PreferenceScreen>
