@@ -27,13 +27,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String[] sides = {"4","6","8","10","12","20"};
     public Spinner spinner;
     public String customDieSides;
+    public String myVal = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //customRollET = (R.id.customRollET);
+        customRollET = findViewById(R.id.customRollET);
 
         resultDie1TV = findViewById(R.id.resultDie1TV);
         resultDie2TV = findViewById(R.id.resultDie2TV);
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             numOfSides.add(sides[i]);
         }
 
+        resultDie1TV.setText("0");
+        resultDie2TV.setText("0");
 
         spinner = (Spinner)findViewById(R.id.numOfSidesSpinner);
         spinner.setOnItemSelectedListener(this);
@@ -58,17 +61,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button Save = findViewById(R.id.saveButton);
         Save.setOnClickListener(this);
 
-        Switch numberOfRollsSwitch = (Switch) findViewById(R.id.numberOfRollsSwitch);
-        numberOfRollsSwitch.toggle();
-
-
+        Switch numberOfRollsSwitch = findViewById(R.id.numberOfRollsSwitch);
+        numberOfRollsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    resultDie2TV.setVisibility(View.VISIBLE);
+                    resultDie2TV.setText("0");
+                    resultDie1TV.setText("0");
+                }
+                else {
+                    resultDie2TV.setVisibility(View.INVISIBLE);
+                    resultDie1TV.setText("0");
+                    resultDie2TV.setText("0");
+                }
+            }
+        });
     }
 
     public int roll(int numSides){
         int randomVal = (int)(Math.random() * numSides) + 1;
         return randomVal;
     }
-
 
     @Override
     public void onClick(View view) {
@@ -98,25 +112,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     resultDie1TV.setText(Integer.toString(roll(20)));
                     resultDie2TV.setText(Integer.toString(roll(20)));
                     break;
+                //case spinner.getSelectedItem().toString():
+                default:
+                    resultDie1TV.setText(Integer.toString(roll(Integer.parseInt(spinner.getSelectedItem().toString()))));
+                    resultDie2TV.setText(Integer.toString(roll(Integer.parseInt(spinner.getSelectedItem().toString()))));
+
             }
 
         } else if(view.getId() == R.id.saveButton){
-//            customDieSides = customRollET.getText().toString();
-//            numOfSides.add(customDieSides);
-//            String myVal = customDieSides;
-//            myVal += customDieSides + ",";
-//            resultDie2TV.setText(myVal);
+            customDieSides = customRollET.getText().toString();
+            numOfSides.add(customDieSides);
+            Log.wtf("customDieSides", customDieSides.toString());
+
+            myVal += customDieSides + ", ";
+            resultDie2TV.setText(myVal);
+            customRollET.setText("");
 
         }
     }
 
-//    public String addCustomSides(String custom){
-//        numOfSides.add()
-//    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(),"d"+sides[position].toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"d"+spinner.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+        resultDie1TV.setText("0");
+        resultDie2TV.setText("0");
+
+
     }
 
     @Override
