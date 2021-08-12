@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button Save = findViewById(R.id.saveButton);
         Save.setOnClickListener(this);
 
+
+
         SwitchCompat numberOfRollsSwitch = findViewById(R.id.numberOfRollsSwitch);
         numberOfRollsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
@@ -100,13 +102,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        String myVals = sharedPrefs.getString("myVals", "0");
-        myValsTV.setText(myVals);
-        //customDies.add(String.valueOf(sharedPrefs.getStringSet("customDies", null)));
-        String [] customDies = myVals.split(", ");
-        for(int i = 0; i < customDies.length; i++ ){
-           numOfSides.add(customDies[i]);
-       }
+        String savingPref = sharedPrefs.getString("saving", getString(R.string.no_saving));
+        if(savingPref.equals(getString(R.string.save_values_i))){
+            String myVals = sharedPrefs.getString("myVals", "0");
+            myValsTV.setText(myVals);
+            //customDies.add(String.valueOf(sharedPrefs.getStringSet("customDies", null)));
+            String [] customDies = myVals.split(", ");
+            for(int i = 0; i < customDies.length; i++ ){
+                numOfSides.add(customDies[i]);
+            }
+        }
+        else if(savingPref.equals(getString(R.string.no_saving_i))){
+
+        }
+
 
 
     }
@@ -205,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             myVals += customDieSides + ", ";
             myValsTV.setText(myVals);
             customRollET.setText("");
+
 
         }
     }

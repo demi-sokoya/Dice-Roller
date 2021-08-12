@@ -3,4 +3,29 @@
     <string name="settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_1_roll">1 Roll</string>
+    <string name="_2_rolls">2 Rolls</string>
+    <string name="roll">Roll</string>
+    <string name="number_of_sides">Number of Sides:</string>
+    <string name="enter_a_custom_die_number">Enter a custom die number</string>
+    <string name="save">save</string>
+    <string name="my_dies">My Dies:</string>
+
+    <string name="no_saving">No Saving</string>
+    <string name="save_values">Save</string>
+
+
+    <string-array name="save_options">
+        <item>@string/no_saving</item>
+        <item>@string/save_values</item>
+    </string-array>
+
+    <string name="no_saving_i">0</string>
+    <string name="save_values_i">1</string>
+
+
+    <string-array name="save_indexes">
+        <item>@string/no_saving_i</item>
+        <item>@string/save_values_i</item>
+    </string-array>
 </resources>
