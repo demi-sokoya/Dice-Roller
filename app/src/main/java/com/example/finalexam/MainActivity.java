@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    public TextView resultDie1TV, resultDie2TV, DieRollsTV = findViewById(R.id.Die1RollsTV), DieRollsLabel;
-    public TextView myValsTV = findViewById(R.id.myValsTV);
+    public TextView resultDie1TV, resultDie2TV, DieRollsTV, DieRollsLabel;
+    public TextView myValsTV;
     public EditText customRollET;
     public ArrayList<String> numOfSides;
     public ArrayAdapter<String> adapter;
@@ -42,14 +44,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PreferenceManager.setDefaultValues(this, R.xml.prefrences,false);
+        PreferenceManager.setDefaultValues(this, R.xml.prefrences,true);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         customRollET = findViewById(R.id.customRollET);
 
         resultDie1TV = findViewById(R.id.resultDie1TV);
         resultDie2TV = findViewById(R.id.resultDie2TV);
-        DieRollsLabel = findViewById(R.id.Die1RollsLabel);
+        DieRollsLabel = findViewById(R.id.DieRollsLabel);
+
+        DieRollsTV = findViewById(R.id.DieRollsTV);
+        myValsTV = findViewById(R.id.myValsTV);
 
         numOfSides = new ArrayList<>();
         Collections.addAll(numOfSides, sides);
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         spinner.setAdapter(adapter);
 
-        Button Roll = findViewById(R.id.rollButton);
+        ImageButton Roll = findViewById(R.id.rollButton);
         Roll.setOnClickListener(this);
 
         Button Save = findViewById(R.id.saveButton);
