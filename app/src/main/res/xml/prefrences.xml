@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="saving"
-        android:title="Save Options"
-        android:summary="Choose whether to save die or not."
-        android:dialogTitle="Saving"
-        android:entries="@array/save_options"
-        android:entryValues="@array/save_indexes"
-        android:defaultValue="@string/no_saving_i"/>
+<!--    <ListPreference-->
+<!--        android:key="saving"-->
+<!--        android:title="Save Options"-->
+<!--        android:summary="Choose whether to save die or not."-->
+<!--        android:dialogTitle="Saving"-->
+<!--        android:entries="@array/save_options"-->
+<!--        android:entryValues="@array/save_indexes"-->
+<!--        android:defaultValue="@string/no_saving_i"/>-->
+    <SwitchPreference
+        android:key="savingVals"
+        android:title="Save Values"
+        android:summary="Save Dice roll values and custom Dice"
+        android:defaultValue="true"
+
+
+        />
     <Preference>
 
     </Preference>

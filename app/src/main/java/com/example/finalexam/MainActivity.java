@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,18 +25,17 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    public TextView resultDie1TV;
-    public TextView resultDie2TV;
-    public TextView myValsTV;
+    public TextView resultDie1TV, resultDie2TV, DieRollsTV = findViewById(R.id.Die1RollsTV), DieRollsLabel;
+    public TextView myValsTV = findViewById(R.id.myValsTV);
     public EditText customRollET;
     public ArrayList<String> numOfSides;
-    public ArrayList<String> customDies;
     public ArrayAdapter<String> adapter;
-    private final String[] sides = {"4","6","8","10","12","20", "True 10", "10s"};
+    private final String[] sides = {"4","6","8","10","12","20"};
     public Spinner spinner;
     public String customDieSides;
     public String myVals = "";
     private SharedPreferences sharedPrefs;
+    public SwitchCompat numberOfRollsSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         resultDie1TV = findViewById(R.id.resultDie1TV);
         resultDie2TV = findViewById(R.id.resultDie2TV);
-        myValsTV = findViewById(R.id.myValsTV);
+        DieRollsLabel = findViewById(R.id.Die1RollsLabel);
 
         numOfSides = new ArrayList<>();
         Collections.addAll(numOfSides, sides);
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        SwitchCompat numberOfRollsSwitch = findViewById(R.id.numberOfRollsSwitch);
+        numberOfRollsSwitch = findViewById(R.id.numberOfRollsSwitch);
         numberOfRollsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
                 resultDie2TV.setVisibility(View.VISIBLE);
@@ -96,18 +94,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        String savingPref = sharedPrefs.getString("saving", getString(R.string.no_saving));
-        if (!savingPref.equals(getString(R.string.save_values_i))) {
-            getString(R.string.no_saving_i);
-        } else {
-            String myVals = sharedPrefs.getString("myVals", "0");
+        boolean savingPref = sharedPrefs.getBoolean("savingVals", true);
+        //String savingPref = sharedPrefs.getString("saving", getString(R.string.no_saving));
+        if (savingPref) {
+            String myVals = sharedPrefs.getString("myVals", "");
             myValsTV.setText(myVals);
+            String DieRolls = sharedPrefs.getString("DieRolls", "");
+            DieRollsTV.setText(DieRolls);
+
             //customDies.add(String.valueOf(sharedPrefs.getStringSet("customDies", null)));
             String [] customDies = myVals.split(", ");
             numOfSides.addAll(Arrays.asList(customDies));
         }
-
-
     }
 
     @Override
@@ -139,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemID = item.getItemId();
         if (itemID == R.id.menu_settings) {
-//            Toast.makeText(this, "Settings menu item", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return false;
         }
@@ -147,59 +144,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    public int roll(int numSides){
-        return (int)(Math.random() * numSides) + 1;
-    }
-
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.rollButton){
-            switch (spinner.getSelectedItem().toString()){
+        if(view.getId() == R.id.rollButton) {
+            Die sides;
+
+            switch (spinner.getSelectedItem().toString()) {
+
                 case "4":
-                    resultDie1TV.setText(Integer.toString(roll(4)));
-                    resultDie2TV.setText(Integer.toString(roll(4)));
+                    sides = new Die(4);
                     break;
                 case "6":
-                    resultDie1TV.setText(Integer.toString(roll(6)));
-                    resultDie2TV.setText(Integer.toString(roll(6)));
+                    sides = new Die(6);
                     break;
                 case "8":
-                    resultDie1TV.setText(Integer.toString(roll(8)));
-                    resultDie2TV.setText(Integer.toString(roll(8)));
+                    sides = new Die(8);
                     break;
                 case "10":
-                    resultDie1TV.setText(Integer.toString(roll(10)));
-                    resultDie2TV.setText(Integer.toString(roll(10)));
+                    sides = new Die(10);
                     break;
                 case "12":
-                    resultDie1TV.setText(Integer.toString(roll(12)));
-                    resultDie2TV.setText(Integer.toString(roll(12)));
+                    sides = new Die(12);
                     break;
                 case "20":
-                    resultDie1TV.setText(Integer.toString(roll(20)));
-                    resultDie2TV.setText(Integer.toString(roll(20)));
+                    sides = new Die(20);
                     break;
-                case "10s":
-                    resultDie1TV.setText(Integer.toString(roll(10)*10));
-                    resultDie2TV.setText(Integer.toString(roll(10)*10));
-                    break;
-                case "True 10":
-                    resultDie1TV.setText(Integer.toString(roll(10)-1));
-                    resultDie2TV.setText(Integer.toString(roll(10)-1));
-                    break;
-                //case spinner.getSelectedItem().toString():
                 default:
-                    resultDie1TV.setText(Integer.toString(roll(Integer.parseInt(spinner.getSelectedItem().toString()))));
-                    resultDie2TV.setText(Integer.toString(roll(Integer.parseInt(spinner.getSelectedItem().toString()))));
+                    sides = new Die(Integer.parseInt(spinner.getSelectedItem().toString()));
 
             }
+            resultDie1TV.setText(Integer.toString(sides.getSideUp()));
+            if(DieRollsTV.getText().toString().isEmpty()) {
+                DieRollsTV.append(Integer.toString(sides.getSideUp()));
+            } else {
+                DieRollsTV.append(", " + Integer.toString(sides.getSideUp()));
+            }
+
+            sides.roll();
+            resultDie2TV.setText(Integer.toString(sides.getSideUp()));
+
+            if (numberOfRollsSwitch.isChecked()) {
+                DieRollsTV.append(", " + Integer.toString(sides.getSideUp()));
+
+            }
+
+
 
         } else if(view.getId() == R.id.saveButton){
             customDieSides = customRollET.getText().toString();
 
             //customDies.add(customDieSides);
-            Log.wtf("customDieSides", customDieSides);
+            //Log.wtf("customDieSides", customDieSides);
 
             //if statement to make sure that the spinner doesn't ry to set anything
             //as well as only save values when something is actually entered
@@ -240,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         editor.putString("myVals", myVals);
+        editor.putString("DieRolls",DieRollsTV.getText().toString());
         //editor.putStringSet("customDies", (Set<String>) customDies);
 
         editor.apply();
