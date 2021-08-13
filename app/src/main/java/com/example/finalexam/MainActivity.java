@@ -197,13 +197,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if(view.getId() == R.id.saveButton){
             customDieSides = customRollET.getText().toString();
-            numOfSides.add(customDieSides);
+
             //customDies.add(customDieSides);
             Log.wtf("customDieSides", customDieSides);
 
             //if statement to make sure that the spinner doesn't ry to set anything
             //as well as only save values when something is actually entered
             if(!customDieSides.isEmpty()) {
+                numOfSides.add(customDieSides);
                 spinner.setSelection(numOfSides.size() - 1);
                 //added a temp string to get rid of the annoying floating comma at the end of the string
                 String temp = "";
