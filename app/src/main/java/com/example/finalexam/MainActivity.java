@@ -211,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //customDies.add(customDieSides);
             Log.wtf("customDieSides", customDieSides);
 
+            spinner.setSelection(numOfSides.size()-1);
+
             myVals += customDieSides + ", ";
             myValsTV.setText(myVals);
             customRollET.setText("");
