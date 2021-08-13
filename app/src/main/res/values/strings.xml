@@ -22,6 +22,7 @@
 
     <string name="no_saving_i">0</string>
     <string name="save_values_i">1</string>
+    <string name="seperator">\", \"</string>
 
 
     <string-array name="save_indexes">

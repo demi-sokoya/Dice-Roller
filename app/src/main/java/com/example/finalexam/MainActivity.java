@@ -1,9 +1,5 @@
 package com.example.finalexam;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,15 +12,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     public TextView resultDie1TV;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ArrayList<String> numOfSides;
     public ArrayList<String> customDies;
     public ArrayAdapter<String> adapter;
-    private final String[] sides = {"4","6","8","10","12","20", "True 10", "100"};
+    private final String[] sides = {"4","6","8","10","12","20", "True 10", "10s"};
     public Spinner spinner;
     public String customDieSides;
     public String myVals = "";
@@ -57,16 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numOfSides = new ArrayList<>();
         Collections.addAll(numOfSides, sides);
 
-//        for (String side : sides) {
-//            numOfSides.add(side);
-//        }
-
-//        for(int i = 0; i < sides.length; i++ ){
-//            numOfSides.add(sides[i]);
-//        }
-
-        resultDie1TV.setText("0");
-        resultDie2TV.setText("0");
+        for (TextView textView : Arrays.asList(resultDie1TV, resultDie2TV)) {
+            textView.setText("0");
+        }
 
         spinner = findViewById(R.id.numOfSidesSpinner);
         spinner.setOnItemSelectedListener(this);
@@ -88,13 +80,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numberOfRollsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
                 resultDie2TV.setVisibility(View.VISIBLE);
-                resultDie2TV.setText("0");
-                resultDie1TV.setText("0");
+                for (TextView textView : Arrays.asList(resultDie1TV, resultDie2TV)) {
+                    textView.setText("0");
+                }
             }
             else {
                 resultDie2TV.setVisibility(View.INVISIBLE);
-                resultDie1TV.setText("0");
-                resultDie2TV.setText("0");
+                for (TextView textView : Arrays.asList(resultDie1TV, resultDie2TV)) {
+                    textView.setText("0");
+                }
             }
         });
     }
@@ -103,19 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         String savingPref = sharedPrefs.getString("saving", getString(R.string.no_saving));
-        if(savingPref.equals(getString(R.string.save_values_i))){
+        if (!savingPref.equals(getString(R.string.save_values_i))) {
+            getString(R.string.no_saving_i);
+        } else {
             String myVals = sharedPrefs.getString("myVals", "0");
             myValsTV.setText(myVals);
             //customDies.add(String.valueOf(sharedPrefs.getStringSet("customDies", null)));
             String [] customDies = myVals.split(", ");
-            for(int i = 0; i < customDies.length; i++ ){
-                numOfSides.add(customDies[i]);
-            }
+            numOfSides.addAll(Arrays.asList(customDies));
         }
-        else if(savingPref.equals(getString(R.string.no_saving_i))){
-
-        }
-
 
 
     }
@@ -190,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     resultDie1TV.setText(Integer.toString(roll(20)));
                     resultDie2TV.setText(Integer.toString(roll(20)));
                     break;
-                case "100":
+                case "10s":
                     resultDie1TV.setText(Integer.toString(roll(10)*10));
                     resultDie2TV.setText(Integer.toString(roll(10)*10));
                     break;
@@ -211,10 +201,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //customDies.add(customDieSides);
             Log.wtf("customDieSides", customDieSides);
 
-            spinner.setSelection(numOfSides.size()-1);
+            //if statement to make sure that the spinner doesn't ry to set anything
+            //as well as only save values when something is actually entered
+            if(!customDieSides.isEmpty()) {
+                spinner.setSelection(numOfSides.size() - 1);
+                //added a temp string to get rid of the annoying floating comma at the end of the string
+                String temp = "";
+                temp += customDieSides + ", ";
+                myVals = temp.substring(0, temp.length()-2);
+                myValsTV.setText(myVals);
+            }
 
-            myVals += customDieSides + ", ";
-            myValsTV.setText(myVals);
+
             customRollET.setText("");
 
 
@@ -224,8 +222,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(getApplicationContext(),"d"+spinner.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-        resultDie1TV.setText("0");
-        resultDie2TV.setText("0");
+        for (TextView textView : Arrays.asList(resultDie1TV, resultDie2TV)) {
+            textView.setText("0");
+        }
+
 
 
     }
