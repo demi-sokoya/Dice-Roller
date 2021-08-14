@@ -24,6 +24,7 @@
     <string name="save_values_i">1</string>
     <string name="seperator">\", \"</string>
     <string name="die_rolls">"Die Rolls: "</string>
+    <string name="die_with_side_six_up">Die with side six up</string>
 
 
     <string-array name="save_indexes">
