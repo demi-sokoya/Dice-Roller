@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         boolean savingPref = sharedPrefs.getBoolean("savingVals", true);
-        //String savingPref = sharedPrefs.getString("saving", getString(R.string.no_saving));
         if (savingPref) {
             String myVals = sharedPrefs.getString("myVals", "");
             myValsTV.setText(myVals);
